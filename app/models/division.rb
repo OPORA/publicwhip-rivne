@@ -5,6 +5,8 @@ class Division < ApplicationRecord
   has_one :division_info
   has_many :division_infos
   has_many :whips
+  has_many :policy_divisions
+  has_many :policies, through: :policy_divisions
 
 
   def find_mp(id)

@@ -17,7 +17,7 @@ class DivisionsController < ApplicationController
     if params[:per].nil?
       params[:per] = 6
     end
-    divisions = Division.includes(:division_info)
+    divisions = Division.includes(:division_info, :policies)
     unless params[:divisions].blank?
       divisions = divisions.find_by_search_query(params[:divisions])
       if params[:sort].nil?

@@ -21,6 +21,11 @@
                           <p class="checkin">проти фракції</p>
                           <p class="card-percent"><%= d.division_info.rebellions %>  голосувань</p>
                         </div>
+                        <% unless division.policies.blank? %>
+                        <div class="col col-sm-5 text-uppercase float-left">
+                          <p class="checkin" data-toggle="tooltip" data-placement="top" data-html="true" title="<%= division.policies.map{|p|p.name}.join('<br>') %>">Політики</p>
+                        </div>
+                        <% end %>
                       </div>
                     </div>
                   </div>
