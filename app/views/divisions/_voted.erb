@@ -9,6 +9,9 @@
                       <div class="col-12"><i class="fa <%=  d.result.gsub(/[[:space:]]/, '') == "Прийнято" ? "fa-check-circle" : "fa-times-circle"  %>" aria-hidden="true"></i></div>
                       <p class="approve"><%= d.result %></p>
                       <p class="card-date"><%= d.date.strftime('%d.%m.%Y') %>, <%= Time.parse(d.clock_time).strftime('%H:%M') %> </p>
+                      <% unless d.policies.blank? %>
+                          <p class="card-percent" data-toggle="tooltip" data-placement="top" data-html="true" title="<%= d.policies.map{|p|p.name}.join('<br>') %>">Політики</p>
+                      <% end %>
                     </div>
                     <div class="col-9 card-text">
                       <p><%=  d.name  %></p>
@@ -21,11 +24,7 @@
                           <p class="checkin">проти фракції</p>
                           <p class="card-percent"><%= d.division_info.rebellions %>  голосувань</p>
                         </div>
-                        <% unless division.policies.blank? %>
-                        <div class="col col-sm-5 text-uppercase float-left">
-                          <p class="checkin" data-toggle="tooltip" data-placement="top" data-html="true" title="<%= division.policies.map{|p|p.name}.join('<br>') %>">Політики</p>
-                        </div>
-                        <% end %>
+
                       </div>
                     </div>
                   </div>
