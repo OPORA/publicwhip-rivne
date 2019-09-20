@@ -7,6 +7,7 @@ namespace :load_division do
     date_votes.each do |date|
       divisions = JSON.load(open("http://test.e-tehnika.in.ua/wp-test/votes-events/?date=#{date}"))
       divisions.each do |d|
+        p d[0]["name"]
             date_vote =  DateTime.parse(d[0]["date_vote"]).strftime("%F")
             mps =  Mp.where("? >= start_date and end_date >= ?", date, date).to_a.uniq(&:deputy_id)
         division = Division.find_or_create_by(
@@ -18,6 +19,7 @@ namespace :load_division do
         )
         division.votes.destroy_all
         d[1]["votes"].each do |v|
+          p v["voter_id"]
           mp = mps.find{|m| m["deputy_id"] == v["voter_id"] }.id
           division.votes.create(deputy_id: mp, vote: v["result"] )
         end
