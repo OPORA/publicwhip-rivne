@@ -3,7 +3,7 @@ namespace :load_division do
   task :votes, [:from_date, :to_date] => :environment do |t, args|
     load_votes = JSON.load(open("http://test.e-tehnika.in.ua/wp-test/votes-events/"))
     save_votes = Division.pluck(:date).uniq.to_a.map{|d| d.strftime('%Y-%m-%d')}
-    date_votes = load_votes - save_votes
+    date_votes = load_votes #- save_votes
     date_votes.each do |date|
       divisions = JSON.load(open("http://test.e-tehnika.in.ua/wp-test/votes-events/?date=#{date}"))
       divisions.each do |d|
@@ -20,6 +20,7 @@ namespace :load_division do
         division.votes.destroy_all
         d[1]["votes"].each do |v|
           p v["voter_id"]
+          next if mps.find{|m| m["deputy_id"] == v["voter_id"] }.nil?
           mp = mps.find{|m| m["deputy_id"] == v["voter_id"] }.id
           division.votes.create(deputy_id: mp, vote: v["result"] )
         end
