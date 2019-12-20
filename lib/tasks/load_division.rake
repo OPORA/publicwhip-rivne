@@ -23,7 +23,7 @@ namespace :load_division do
             p v["voter_id"]
             #next if mps.find{|m| m["deputy_id"] == v["voter_id"] }.nil?
             mp = mps.find{|m| m["deputy_id"] == v["voter_id"] }.id
-            division.votes.create(deputy_id: mp, vote: v["result"] )
+            division.votes.new(deputy_id: mp, vote: v["result"] ).save
           end
         end  
       end
