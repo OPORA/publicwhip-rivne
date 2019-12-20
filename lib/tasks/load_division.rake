@@ -27,7 +27,9 @@ namespace :load_division do
             mp = mps.find{|m| m["deputy_id"] == v["voter_id"] }.id
             votes << {deputy_id: mp, vote: v["result"]}
           end
-          division.votes.create(votes)  
+          ActiveRecord::Base.transaction do  
+            division.votes.create(votes)
+          end  
       end
     end
   end
