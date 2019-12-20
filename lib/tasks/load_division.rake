@@ -17,15 +17,17 @@ namespace :load_division do
             clock_time: DateTime.parse(d[0]["date_vote"]).strftime("%T"),
             result: d[0]["option"]
         )
-        division.votes.destroy_all
         ActiveRecord::Base.transaction do
+          division.votes.destroy_all
+        end
+        votes = []
           d[1]["votes"].each do |v|
-            p v["voter_id"]
+            #p v["voter_id"]
             #next if mps.find{|m| m["deputy_id"] == v["voter_id"] }.nil?
             mp = mps.find{|m| m["deputy_id"] == v["voter_id"] }.id
-            division.votes.new(deputy_id: mp, vote: v["result"] ).save
+            votes << {deputy_id: mp, vote: v["result"]}
           end
-        end  
+          division.votes.create(votes)  
       end
     end
   end
